@@ -3,7 +3,7 @@
 ## Why 4672 matters
 Fires whenever an account logs on with admin-level privileges.
 Primary detection for privilege escalation, credential dumping prep,
-and token theft — but noisy on SYSTEM, so filter by account.
+and token theft — but noisy on SYSTEM, so filter by account
 
 ## Baseline (this machine, 500-event window)
 
