@@ -7,7 +7,7 @@ and token theft — but noisy on SYSTEM, so filter by account.
 
 ## Sample event (Event Viewer)
 
-![4672 special privileges](screenshots/4672-special-privileges.png)
+![4672 special privileges](../screenshots/4672-special-privileges.png)
 
 *SYSTEM assigned its default privilege set including SeDebugPrivilege, SeImpersonatePrivilege, and SeBackupPrivilege — expected on boot.*
 
