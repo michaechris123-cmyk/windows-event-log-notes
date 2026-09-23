@@ -25,7 +25,7 @@ preserve it.
 | Logon ID | 0x1EB2D | Session identifier |
 | Computer | my destop | Local workstation |
 
-![1102 audit log cleared](screenshots/1102-audit-log-cleared.png)
+![1102 audit log cleared](../screenshots/1102-audit-log-cleared.png)
 
 ## Verdict
 Intentional lab test. In production, this event triggers immediate
