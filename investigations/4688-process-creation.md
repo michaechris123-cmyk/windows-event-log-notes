@@ -23,7 +23,7 @@ Verified with `auditpol /get /subcategory:"Process Creation"`
 |---|---|---|
 | Event ID | 4688 | Process creation |
 | Creator Subject → Account Name | oriso | Local user who launched the process |
-| Creator Subject → Account Domain | DESKTOP-QGA4BCO | Local machine |
+| Creator Subject → Account Domain | my desktop | Local machine |
 | Creator Subject → Logon ID | 0x1EB2D | Session identifier |
 | New Process Name | C:\Windows\System32\whoami.exe | The process that launched |
 | Creator Process Name | C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe | Parent process |
