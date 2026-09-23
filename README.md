@@ -21,6 +21,7 @@ Focus: Windows Security log, event IDs, Sysmon telemetry, and detection logic.
 - [4624 — Logon types & baseline](investigations/4624-logon-types.md)
 - [4625 — Failed logon: brute force vs user error](investigations/4625-brute-force-vs-spray.md)
 - [4688 — Process creation + parent-child detection](investigations/4688-process-creation.md)
+- [4672 — Special privileges assigned](investigations/4672-special-privileges.md)
 ---
 
 ## Event ID reference *(in progress)*
