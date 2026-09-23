@@ -1,10 +1,21 @@
 # 4624 — Successful Logon & Logon Types
 
 ## Scenario
-Filtered Security log to Event ID 4624 on a local Windows 11 workstation.
-Reviewed a representative Type 5 (service) logon in detail.
+Enumerated all Event ID 4624 events in the Security log on a standalone
+Windows 11 workstation using PowerShell + XML parsing, then grouped by
+LogonType to establish a baseline.
 
-## Sample event decoded
+## Baseline (this machine)
+
+| Logon Type | Meaning | Count | Verdict |
+|---|---|---|---|
+| 5 | Service | 1064 | Normal — services.exe starting services as SYSTEM |
+| 2 | Interactive | 89 | Normal — local keyboard logons + UAC |
+| 7 | Unlock | 8 | Normal — workstation screen unlocks |
+| 3 | Network | 0 | Expected — no SMB shares in use |
+| 10 | RemoteInteractive | 0 | Expected — no RDP |
+
+## Representative event decoded (Type 5)
 
 | Field | Value | Interpretation |
 |---|---|---|
@@ -16,26 +27,22 @@ Reviewed a representative Type 5 (service) logon in detail.
 | Elevated Token | Yes | Running with full privileges |
 | Process Name | C:\Windows\System32\services.exe | Service Control Manager |
 | Source Network Address | - | Local only, no network |
-| Computer |mine | Local workstation |
 
 ## Verdict
-Benign. `services.exe` starting a Windows service as SYSTEM with Logon Type 5 is normal OS behavior and appears dozens of times per day.
+Benign. Type 5 with services.exe + SYSTEM is standard Windows behavior
+and dominates the count. The absence of Type 3/10 is expected on a
+standalone workstation — if either appeared, it would warrant review.
 
 ## Logon Type reference
 
-| Type | Meaning | Typical source | Suspicious indicator |
+| Type | Meaning | Typical source | Suspicious when |
 |---|---|---|---|
-| 2 | Interactive | Physical keyboard | Rarely — trusted baseline |
-| 3 | Network | SMB, PSExec, share access | External IP, odd account, lateral movement |
-| 4 | Batch | Scheduled task | Rare — unexpected tasks |
-| 5 | Service | Windows services (services.exe) | Almost never — normal OS |
-| 10 | RemoteInteractive | RDP | External IP, off-hours, repeated attempts |
+| 2 | Interactive | Physical keyboard | Rarely |
+| 3 | Network | SMB, PSExec, share access | External IP, off-hours, unexpected |
+| 4 | Batch | Scheduled task | Unexpected scheduled tasks |
+| 5 | Service | Windows services (services.exe) | SYSTEM over network |
+| 7 | Unlock | Workstation unlock | Never — normal |
+| 10 | RemoteInteractive | RDP | External IP, off-hours, brute force pattern |
 
-## Why this matters
-A Type 5 logon by SYSTEM might look alarming without context, but it is the standard signature of Windows starting a service. Recognizing this prevents false positives.
-
-## What WOULD be suspicious
-- Type 3 or 10 with a **remote source IP**
-- `SYSTEM` or a service account authenticating **over the network**
-- Logon Process = `NtLmSsp` / `Kerberos` on an account that should only run locally
-- Many Type 10 logons to a single machine in a short window
+## Reusable command
+See [`powershell/4624-logon-type-summary.ps1`](../powershell/4624-logon-type-summary.ps1)
