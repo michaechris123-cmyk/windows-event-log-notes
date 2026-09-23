@@ -16,7 +16,7 @@ Reviewed a representative Type 5 (service) logon in detail.
 | Elevated Token | Yes | Running with full privileges |
 | Process Name | C:\Windows\System32\services.exe | Service Control Manager |
 | Source Network Address | - | Local only, no network |
-| Computer | DESKTOP-QGA4BCO | Local workstation |
+| Computer |mine | Local workstation |
 
 ## Verdict
 Benign. `services.exe` starting a Windows service as SYSTEM with Logon Type 5 is normal OS behavior and appears dozens of times per day.
