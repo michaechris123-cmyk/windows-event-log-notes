@@ -15,7 +15,6 @@ Focus: Windows Security log, event IDs, Sysmon telemetry, and detection logic.
 
 ---
 
-
 - 
 ## Investigations
 
