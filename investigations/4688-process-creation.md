@@ -1,5 +1,11 @@
 # 4688 — Process Creation
 
+## Sample event (Event Viewer)
+
+![4688 process creation](screenshots/4688-process-creation.png)
+
+*`whoami.exe` spawned by `powershell.exe` from an elevated session — normal recon.*
+
 ## Why 4688 matters
 Every executable launched on Windows generates a 4688 event.
 It is the primary native source for detecting malicious execution —
