@@ -23,7 +23,7 @@ preserve it.
 | Account Name | oriso | Local user account |
 | Domain Name | my desktop | Local machine |
 | Logon ID | 0x1EB2D | Session identifier |
-| Computer | DESKTOP-QGA4BCO | Local workstation |
+| Computer | my destop | Local workstation |
 
 ![1102 audit log cleared](screenshots/1102-audit-log-cleared.png)
 
