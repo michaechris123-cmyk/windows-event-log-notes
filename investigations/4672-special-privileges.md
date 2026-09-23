@@ -3,7 +3,13 @@
 ## Why 4672 matters
 Fires whenever an account logs on with admin-level privileges.
 Primary detection for privilege escalation, credential dumping prep,
-and token theft — but noisy on SYSTEM, so filter by account
+and token theft — but noisy on SYSTEM, so filter by account.
+
+## Sample event (Event Viewer)
+
+![4672 special privileges](screenshots/4672-special-privileges.png)
+
+*SYSTEM assigned its default privilege set including SeDebugPrivilege, SeImpersonatePrivilege, and SeBackupPrivilege — expected on boot.*
 
 ## Baseline (this machine, 500-event window)
 
@@ -25,7 +31,7 @@ and token theft — but noisy on SYSTEM, so filter by account
 | Account Name | SYSTEM | Highest privilege built-in account |
 | Account Domain | NT AUTHORITY | Local system authority |
 | Logon ID | 0x3E7 | Canonical SYSTEM session identifier |
-| Computer | my pc | Local workstation |
+| Computer | DESKTOP-QGA4BCO | Local workstation |
 
 ## Privileges observed (SYSTEM default set)
 
@@ -36,18 +42,18 @@ SeSystemEnvironmentPrivilege, SeImpersonatePrivilege,
 SeDelegateSessionUserImpersonatePrivilege
 
 ## Verdict
-Benign. Baseline matches a clean Windows 11 workstation — SYSTEM
-dominant, DWM virtual accounts present (expected), local user has
-10 elevated events matching lab admin activity.
+Benign. Baseline matches a clean Windows 11 workstation — SYSTEM dominant,
+DWM virtual accounts present (expected), local user has 10 elevated events
+matching lab admin activity.
 
-## DWM virtual accounts 
-`DWM-1`, `DWM-2`, `DWM-N` are per-session virtual accounts used by
-the Desktop Window Manager (dwm.exe). They are auto-created, have no
-password, and appear in 4672 normally.
+## DWM virtual accounts — know these
+`DWM-1`, `DWM-2`, `DWM-N` are per-session virtual accounts used by the
+Desktop Window Manager (`dwm.exe`). They are auto-created, have no password,
+and appear in 4672 normally.
 
 **Detection value:** legitimate DWM is `dwm.exe` in `C:\Windows\System32`.
-Malware masquerading as DWM (e.g. `DWM-1.exe` from `%TEMP%`) or DWM
-making network connections / spawning shells = high-confidence compromise.
+Malware masquerading as DWM (e.g. `DWM-1.exe` running from `%TEMP%`) or
+DWM making network connections / spawning shells = high-confidence compromise.
 
 ## Privilege reference
 
@@ -71,8 +77,8 @@ making network connections / spawning shells = high-confidence compromise.
 - Alert on non-SYSTEM, non-service, non-DWM accounts receiving
   SeDebugPrivilege or SeImpersonatePrivilege
 - Alert on SeTcbPrivilege outside of boot window
-- Correlate with 4624 — 4672 immediately after a suspicious 4624 is high signal
-- Alert on DWM-* spawning child processes or making network connections
+- Correlate with 4624 — a 4672 immediately after a suspicious 4624 is high signal
+- Alert on `DWM-*` spawning child processes or making network connections
 
 ## Reusable command
 See [`powershell/4672-special-privileges-summary.ps1`](../powershell/4672-special-privileges-summary.ps1)
